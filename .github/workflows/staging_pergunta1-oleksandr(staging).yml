@@ -1,0 +1,21 @@
+name: Deploy staging to Azure Web App
+
+on:
+  push:
+    branches:
+      - staging
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Azure Web App slot
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'pergunta1-oleksandr'
+          slot-name: 'staging'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_STAGING }}
+          package: .
